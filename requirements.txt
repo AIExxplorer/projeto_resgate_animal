@@ -1,0 +1,5 @@
+Flask==2.3.2
+Flask-SQLAlchemy==3.0.3
+psycopg2-binary==2.9.6
+requests==2.31.0
+SQLAlchemy==2.0.15
