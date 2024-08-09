@@ -1,72 +1,51 @@
 import tkinter as tk
-from tkinter import ttk
-try:
-    import requests
-except ImportError:
-    print("Please install the 'requests' module.")
+from tkinter import messagebox
+import requests
 
-class Application(tk.Tk):
-    def __init__(self):
-        super().__init__()
+class AnimalRescueApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Animal Rescue System")
 
-        self.title("Sistema de Gestão de Resgate Animal")
-        self.geometry("800x600")
+        # Exemplo de GUI para adicionar um animal
+        self.label_name = tk.Label(root, text="Nome do Animal")
+        self.label_name.grid(row=0, column=0)
 
-        self.create_widgets()
+        self.entry_name = tk.Entry(root)
+        self.entry_name.grid(row=0, column=1)
 
-    def create_widgets(self):
-        notebook = ttk.Notebook(self)
-        notebook.pack(expand=True, fill='both')
+        self.label_species = tk.Label(root, text="Espécie")
+        self.label_species.grid(row=1, column=0)
 
-        animais_frame = ttk.Frame(notebook)
-        doacoes_frame = ttk.Frame(notebook)
-        doadores_frame = ttk.Frame(notebook)
+        self.entry_species = tk.Entry(root)
+        self.entry_species.grid(row=1, column=1)
 
-        notebook.add(animais_frame, text='Animais')
-        notebook.add(doacoes_frame, text='Doações')
-        notebook.add(doadores_frame, text='Doadores')
+        self.button_add = tk.Button(root, text="Adicionar Animal", command=self.add_animal)
+        self.button_add.grid(row=2, columnspan=2)
 
-        self.create_animais_widgets(animais_frame)
-        self.create_doacoes_widgets(doacoes_frame)
-        self.create_doadores_widgets(doadores_frame)
+    def add_animal(self):
+        name = self.entry_name.get()
+        species = self.entry_species.get()
 
-    def create_animais_widgets(self, frame):
-        tree = ttk.Treeview(frame, columns=('ID', 'Nome', 'Espécie'), show='headings')
-        tree.heading('ID', text='ID')
-        tree.heading('Nome', text='Nome')
-        tree.heading('Espécie', text='Espécie')
-        tree.pack(expand=True, fill='both')
+        if not name or not species:
+            messagebox.showerror("Erro", "Por favor, preencha todos os campos")
+            return
 
-        refresh_button = ttk.Button(frame, text='Atualizar', command=lambda: self.refresh_data(tree, 'animais'))
-        refresh_button.pack()
+        data = {
+            "name": name,
+            "species": species,
+            "sex": "Desconhecido",
+            "rescue_date": "2024-08-08"
+        }
 
-    def create_doacoes_widgets(self, frame):
-        tree = ttk.Treeview(frame, columns=('ID', 'Valor', 'Data'), show='headings')
-        tree.heading('ID', text='ID')
-        tree.heading('Valor', text='Valor')
-        tree.heading('Data', text='Data')
-        tree.pack(expand=True, fill='both')
+        response = requests.post("http://localhost:5000/animals", json=data)
 
-        refresh_button = ttk.Button(frame, text='Atualizar', command=lambda: self.refresh_data(tree, 'doacoes'))
-        refresh_button.pack()
-
-    def create_doadores_widgets(self, frame):
-        tree = ttk.Treeview(frame, columns=('ID', 'Nome', 'Email'), show='headings')
-        tree.heading('ID', text='ID')
-        tree.heading('Nome', text='Nome')
-        tree.heading('Email', text='Email')
-        tree.pack(expand=True, fill='both')
-
-        refresh_button = ttk.Button(frame, text='Atualizar', command=lambda: self.refresh_data(tree, 'doadores'))
-        refresh_button.pack()
-
-    def refresh_data(self, tree, endpoint):
-        tree.delete(*tree.get_children())
-        response = requests.get(f'http://localhost:5000/api/{endpoint}')
-        data = response.json()
-        for item in data:
-            tree.insert('', 'end', values=tuple(item.values()))
+        if response.status_code == 201:
+            messagebox.showinfo("Sucesso", "Animal adicionado com sucesso!")
+        else:
+            messagebox.showerror("Erro", "Falha ao adicionar o animal")
 
 if __name__ == "__main__":
-    app = Application()
-    app.mainloop()
+    root = tk.Tk()
+    app = AnimalRescueApp(root)
+    root.mainloop()

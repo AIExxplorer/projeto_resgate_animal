@@ -1,5 +1,5 @@
 from app import create_app, db
-from app.models import Animal, Doacao, Doador
+from app.models import Animal, Adotante, Doador, Voluntario, Doacao
 from datetime import datetime
 
 app = create_app()
@@ -18,10 +18,13 @@ def init_db():
             doador1 = Doador(nome='João Silva', email='joao@example.com')
             doador2 = Doador(nome='Maria Souza', email='maria@example.com')
             
-            doacao1 = Doacao(valor=100.00, data=datetime(2023, 6, 3), doador=doador1)
-            doacao2 = Doacao(valor=50.00, data=datetime(2023, 6, 4), doador=doador2)
+            db.session.add_all([cachorro, gato, doador1, doador2])
+            db.session.commit()
             
-            db.session.add_all([cachorro, gato, doador1, doador2, doacao1, doacao2])
+            doacao1 = Doacao(valor=100.00, data=datetime(2023, 6, 3), doador_id=doador1.id)
+            doacao2 = Doacao(valor=50.00, data=datetime(2023, 6, 4), doador_id=doador2.id)
+            
+            db.session.add_all([doacao1, doacao2])
             db.session.commit()
             
             print("Dados de exemplo adicionados com sucesso!")
