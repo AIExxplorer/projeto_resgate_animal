@@ -5,16 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Resgate Animal{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        nav {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        nav a {
+            display: inline-block;
+            margin: 0 10px;
+            padding: 10px 20px;
+            background-color: #000;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        nav a:hover {
+            background-color: #333;
+        }
+        main {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
     <header>
         <h1>Resgate Animal</h1>
         <nav>
-            <ul>
-                <li><a href="{{ url_for('main.home') }}">Home</a></li>
-                <li><a href="{{ url_for('main.add_animal') }}">Adicionar Animal</a></li>
-                <li><a href="{{ url_for('main.list_animals') }}">Listar Animais</a></li>
-            </ul>
+            <a href="{{ url_for('main.home') }}">Home</a>
+            <a href="{{ url_for('main.add_animal') }}">Adicionar Animal</a>
+            <a href="{{ url_for('main.list_animals') }}">Listar Animais</a>
         </nav>
     </header>
     <main>
