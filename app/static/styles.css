@@ -1,0 +1,23 @@
+/* Certifique-se de que o body e o html ocupem toda a altura da página */
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* O main deve ocupar o espaço restante */
+main {
+    flex: 1;
+}
+
+/* Estilização do footer */
+footer {
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}

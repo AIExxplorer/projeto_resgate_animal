@@ -30,6 +30,11 @@
     </style>
 </head>
 <body>
+    {% extends "base.html" %}
+
+    {% block title %}Home{% endblock %}
+    
+    {% block content %}
     <div class="container">
         <h1>Bem-vindo ao Sistema de Gestão de Resgate Animal</h1>
         <p>Este sistema foi desenvolvido para auxiliar na gestão de uma instituição dedicada ao resgate de animais.</p>
@@ -41,5 +46,6 @@
         </ul>
         <p>Para acessar as funcionalidades completas, por favor, utilize a interface gráfica do sistema.</p>
     </div>
+    {% endblock %}
 </body>
 </html>

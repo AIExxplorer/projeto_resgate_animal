@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Listar Animais{% endblock %}
+
+{% block content %}
+<h2>Lista de Animais</h2>
+<ul>
+    {% for animal in animals %}
+    <li>{{ animal.name }} - {{ animal.species }} - {{ animal.breed }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}
